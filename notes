@@ -1,0 +1,5 @@
+sudo docker rm -f $(sudo docker ps -a -q)
+sudo docker rmi -f $(sudo docker images -aq)
+sudo docker-compose up -d
+sudo docker exec -it 93b422a3aad7 /bin/bash
+service nginx restart

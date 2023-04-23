@@ -1,0 +1,54 @@
+version: "3.7"
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        container_name: wordpress_server
+        ports:
+            - 8088:80
+            - 9000:9000
+        # volumes:
+        #     - ./wordpress:/var/www/html/wordpress
+        depends_on:
+            - db
+        # networks:
+        #     - wordpress
+    
+    # phpmyadmin:
+    #     image: "phpmyadmin:latest"
+    #     restart: unless-stopped
+    # artisivf
+    #     container_name: phpmyadmin
+    #     ports:
+    #         - 8085:80
+    #     depends_on:
+    #         - db
+    #     environment:
+    #         PMA_ARBITRARY: 1
+        # networks:
+        #     - wordpress
+
+    db:
+        restart: unless-stopped
+        image: "mysql:latest"
+        container_name: mysql
+        ports:
+            - 3308:3306
+        volumes:
+            - ./mysql:/var/lib/mysql
+        environment:
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: wordpress
+            MYSQL_DATABASE: wordpress
+            MYSQL_ROOT_PASSWORD: wordpress
+        # networks:
+        #     - wordpress
+
+# networks:
+#   wordpress:
+#     driver: bridge
+volumes:
+  sql_data:
+    external: true 
